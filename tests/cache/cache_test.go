@@ -5,15 +5,23 @@ import (
 	"lrcsnc/internal/pkg/global"
 	playerStructs "lrcsnc/internal/pkg/structs/player"
 	"lrcsnc/internal/pkg/types"
+	"os"
 	"testing"
 )
 
 func TestStoreGetCycle(t *testing.T) {
+	global.Config.C.Cache.Dir = "./lrcsnc-cache"
+	if _, err := os.ReadDir(os.ExpandEnv(global.Config.C.Cache.Dir)); os.IsNotExist(err) {
+		err = os.MkdirAll(os.ExpandEnv(global.Config.C.Cache.Dir), 0o755)
+		if err != nil {
+			t.Skip("[tests/cache/TestStoreGetCycle] WARN: Can't create database on this system, skipping...")
+		}
+	}
+
 	cache.Init()
 	defer cache.Close()
 
 	global.Config.C.Cache.StoreCondition.IfSynced = true
-	global.Config.C.Cache.Dir = "$HOME/.cache/lrcsnc"
 	testSong := playerStructs.Song{
 		Title:    "Is This A Test?",
 		Artists:  []string{"Endg4me_"},
