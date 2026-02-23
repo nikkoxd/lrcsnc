@@ -11,10 +11,18 @@ import (
 func (l Provider) Get(song playerStructs.Song) (playerStructs.LyricsData, error) {
 	var body []byte
 	var err error
-	var res playerStructs.LyricsData
+	var res playerStructs.LyricsData = playerStructs.LyricsData{LyricsState: types.LyricsStateNotFound}
 
-	log.Debug("lyrics/providers/lrclib/get", "Trying to fetch lyrics...")
-	body, err = requestLyrics(song.Title, strings.Join(song.AlbumArtists, ", "))
+	log.Debug("lyrics/providers/lrclib/get", "Trying to get lyrics directly...")
+	body, err = getLyrics(song.Title, strings.Join(song.Artists, ", "), song.Album, song.Duration)
+	if err == nil {
+		outs, err := parseResps(body)
+		if err != nil {
+			return outs[0].toLyricsData(), nil
+		}
+	}
+	log.Debug("lyrics/providers/lrclib/get", "Trying to search around for lyrics more...")
+	body, err = searchLyrics(song.Title, strings.Join(song.AlbumArtists, ", "))
 	if err == nil {
 		res, err = responseListToLyricsData(&song, body)
 	}
@@ -25,5 +33,5 @@ func (l Provider) Get(song playerStructs.Song) (playerStructs.LyricsData, error)
 	log.Debug("lyrics/providers/lrclib/get", "Failed; the lyrics for this song don't exist")
 
 	// If nothing is found, return a not found state
-	return playerStructs.LyricsData{LyricsState: types.LyricsStateNotFound}, errs.NotFound
+	return res, errs.NotFound
 }
