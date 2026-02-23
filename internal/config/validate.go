@@ -80,6 +80,17 @@ func Validate(c *configStruct.Config) (errs ValidationErrors) {
 		c.Client.Format.Instrumental.MaxSymbols = 1
 	}
 
+	if _, err := os.ReadDir(os.ExpandEnv(c.Cache.Dir)); os.IsNotExist(err) {
+		err = os.MkdirAll(os.ExpandEnv(c.Cache.Dir), 0o755)
+		if err != nil {
+			errs = append(errs, ValidationError{
+				Path:    "cache/dir",
+				Message: "Can't access the provided cache directory (permissions issue or invalid path)",
+				Fatal:   true,
+			})
+		}
+	}
+
 	return
 }
 
