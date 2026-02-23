@@ -47,6 +47,9 @@ func Start() {
 		server.InitServer()
 		defer server.CloseServer()
 
+		cache.Init()
+		defer cache.Close()
+
 		// Deploy the main watchers
 		sync.Start()
 
@@ -66,7 +69,7 @@ func Start() {
 		for {
 			<-usr2Sig
 			song := global.Player.P.Song
-			cache.Remove(&song)
+			cache.StorageInstance.Remove(&song)
 		}
 	}()
 

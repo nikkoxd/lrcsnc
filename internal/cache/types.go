@@ -1,10 +1,9 @@
 package cache
 
-type CacheState byte
+type CacheState bool
 
 var (
-	CacheStateActive      CacheState
-	CacheStateExpired     CacheState = 1
-	CacheStateNonExistant CacheState = 1
-	CacheStateDisabled    CacheState = 2
+	CacheStateActive      CacheState = true
+	CacheStateExpired     CacheState = false
+	CacheStateNonExistant CacheState = false
 )

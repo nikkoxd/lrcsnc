@@ -9,6 +9,9 @@ import (
 )
 
 func TestStoreGetCycle(t *testing.T) {
+	cache.Init()
+	defer cache.Close()
+
 	global.Config.C.Cache.StoreCondition.IfSynced = true
 	global.Config.C.Cache.Dir = "$HOME/.cache/lrcsnc"
 	testSong := playerStructs.Song{
@@ -28,21 +31,20 @@ func TestStoreGetCycle(t *testing.T) {
 	if canStore == false {
 		t.Error("[tests/cache/TestStoreGetCycle] ERROR: Failed to store lyrics in cache: store conditions are not working properly.")
 	}
-	err := cache.Store(&testSong)
+	err := cache.StorageInstance.Store(&testSong)
 	if err != nil {
 		t.Errorf("[tests/cache/TestStoreGetCycle] ERROR: Failed to store lyrics in cache: %v", err)
 	}
-	defer cache.Remove(&testSong)
+	defer cache.StorageInstance.Remove(&testSong)
 
-	global.Config.C.Cache.Enabled = false
-	answerDisabled, cacheStateDisabled := cache.Fetch(&testSong)
+	// This test is now commented out since the Enabled check
+	// is now only in lyrics/fetch.
+	//
+	// global.Config.C.Cache.Enabled = false
+	// answerDisabled, cacheStateDisabled := cache.StorageInstance.Fetch(&testSong)
+	// global.Config.C.Cache.Enabled = true
 
-	global.Config.C.Cache.Enabled = true
-	answerInfLifeSpan, cacheStateInfLifeSpan := cache.Fetch(&testSong)
-
-	if len(answerDisabled.Lyrics) != 0 || answerDisabled.LyricsState != 0 || cacheStateDisabled != cache.CacheStateDisabled {
-		t.Errorf("[tests/cache/TestStoreGetCycle] ERROR: Disabling caching in config still allows fetching cached data")
-	}
+	answerInfLifeSpan, cacheStateInfLifeSpan := cache.StorageInstance.Fetch(&testSong)
 
 	if len(answerInfLifeSpan.Lyrics) != 2 || answerInfLifeSpan.LyricsState != 0 || cacheStateInfLifeSpan != cache.CacheStateActive {
 		t.Errorf("[tests/cache/TestStoreGetCycle] ERROR: Received wrong cached data: expected %v, %v and %v, received %v, %v and %v",

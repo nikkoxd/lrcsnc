@@ -26,8 +26,9 @@ func Fetch() (playerStructs.LyricsData, error) {
 
 	// yea i'm not covering this with mutexes good luck timing this out future me
 	if global.Config.C.Cache.Enabled {
-		cachedData, cacheState := cache.Fetch(&song)
+		cachedData, cacheState := cache.StorageInstance.Fetch(&song)
 		if cacheState == cache.CacheStateActive {
+			log.Debug("lyrics/fetch", "Cache hit; using cached data.")
 			return cachedData, nil
 		}
 	}
@@ -49,7 +50,7 @@ func Fetch() (playerStructs.LyricsData, error) {
 
 	if global.Config.C.Cache.Enabled && global.Config.C.Cache.StoreCondition.IsEnabledFor(res.LyricsState) {
 		song.LyricsData = res
-		cache.Store(&song)
+		cache.StorageInstance.Store(&song)
 	}
 
 	return res, nil
