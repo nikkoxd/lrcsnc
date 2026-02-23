@@ -7,8 +7,8 @@ import (
 )
 
 type Lyric struct {
-	Timing float64 `json:"t"`
-	Text   string  `json:"l"`
+	Timing float64
+	Text   string
 }
 
 type Lyrics []Lyric
