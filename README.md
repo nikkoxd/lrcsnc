@@ -3,7 +3,7 @@ Gets the currently playing song's synced lyrics and displays them in sync with s
 
 lrcsnc was primarily designed for bars like [Waybar](https://github.com/Alexays/Waybar), but grew into something that can be used basically any way you want (check below!)
 
-https://github.com/user-attachments/assets/467a5cc0-28cd-4c61-8bf7-f1f533ad2a95
+https://github.com/user-attachments/assets/1a90297c-2857-4100-8b25-fca07991297e
 
 <sub>^ - lrcsnc launched as a server and [lrcsnc-lbl-client](https://github.com/Endg4meZer0/lrcsnc-lbl-client) used for client side.</sub>
 
