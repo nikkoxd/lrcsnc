@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[0.1.3](https://github.com/Endg4meZer0/lrcsnc/releases/tag/v0.1.3)] - 2026-02-23
+### Changed
+- Caching now uses SQLite database instead of littering the cache directory with JSON files. Overall performance should not change in any way though.
+- LrcLib provider now sends one `get` request to try and grab the latest version of lyrics with the exact matches on song's metadata if available. If it fails, the `search`-related algorithm introduced in [0.1.2](https://github.com/Endg4meZer0/lrcsnc/releases/tag/v0.1.2) takes place.
+### Fixed
+- A crash that occures when DBus tries to write some MPRIS data into an already closed channel during app's shutdown.
+- Config's validation function only checking the listen-at field format properly if the protocol was set to "tcp", not "tcp4" and "tcp6" as well.
+
 ## [[0.1.2](https://github.com/Endg4meZer0/lrcsnc/releases/tag/v0.1.2)] - 2026-01-03
 ### Added
 - Ability to remove cached data for currently playing song by signaling USR2 at the lrcsnc process.
