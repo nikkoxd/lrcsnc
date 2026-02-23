@@ -17,7 +17,7 @@ func (l Provider) Get(song playerStructs.Song) (playerStructs.LyricsData, error)
 	body, err = getLyrics(song.Title, strings.Join(song.Artists, ", "), song.Album, song.Duration)
 	if err == nil {
 		outs, err := parseResps(body)
-		if err != nil {
+		if err == nil && outs[0].toLyricsData().LyricsState != types.LyricsStatePlain {
 			return outs[0].toLyricsData(), nil
 		}
 	}
