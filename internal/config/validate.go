@@ -34,7 +34,7 @@ func Validate(c *configStruct.Config) (errs ValidationErrors) {
 	}
 
 	// Check whether listen path value is allowed
-	if c.Net.Protocol == "tcp" && len(strings.Split(c.Net.ListenAt, ":")) != 2 {
+	if strings.HasPrefix(c.Net.Protocol, "tcp") && len(strings.Split(c.Net.ListenAt, ":")) != 2 {
 		errs = append(errs, ValidationError{
 			Path:    "net/listen-path",
 			Message: fmt.Sprintf("'%s' is not a valid value. Paired with \"tcp\" protocol, it should consist of <host>:<port>.", c.Net.ListenAt),
