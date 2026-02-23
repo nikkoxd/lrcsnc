@@ -75,11 +75,15 @@ func Connect() error {
 
 // Disconnect disconnects from D-Bus. Any error is counted as fatal.
 func Disconnect() {
-	// We can close the connection since the method
-	// also will close all the channels used for signals
-	err := conn.Close()
+	err := mpris.UnregisterNameOwnerChanged(conn, nameOwnerChangedSignalReceiver)
 	if err != nil {
 		log.Fatal("mpris/Disconnect", err.Error())
 	}
+
+	err = conn.Close()
+	if err != nil {
+		log.Fatal("mpris/Disconnect", err.Error())
+	}
+
 	log.Info("mpris/Disconnect", "Successfully disconnected from DBus")
 }
