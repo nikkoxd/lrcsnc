@@ -1,7 +1,7 @@
 # <p align="center">lrcsnc</p>
 Gets the currently playing song's synced lyrics and displays them in sync with song's actual position.
 
-lrcsnc was primarily designed for bars like [Waybar](https://github.com/Alexays/Waybar), but grew into something that can be used basically anywhere (check below!)
+lrcsnc was primarily designed for bars like [Waybar](https://github.com/Alexays/Waybar), but grew into something that can be used basically any way you want (check below!)
 
 https://github.com/user-attachments/assets/467a5cc0-28cd-4c61-8bf7-f1f533ad2a95
 
@@ -9,15 +9,16 @@ https://github.com/user-attachments/assets/467a5cc0-28cd-4c61-8bf7-f1f533ad2a95
 
 https://github.com/user-attachments/assets/1bc93e59-385f-41cb-a23e-49298e5887b0
 
-<sub>^ - a basic example in Waybar using the simple client that's included in the base package</sub>
+<sub>^ - a basic example in Waybar using the lrcsnc's Simple Internal Client™</sub>
 
 ## Features
 
 - Precise synchronizing to any* player that supports MPRIS
 - Can be tailor-fit into a lot of things; the UNIX way, as they say.
 - Client-server communication, allowing for different types of clients to exist simultaneously
+- Caching received lyrics data so the fetching goes easier for the bandwidth and the lyrics provider
 - A decent level of customization and configuration using TOML
-- Barebones romanization for Japanese, Chinese and Korean languages
+- Barebones romanization for some languages
 - ...and more!
 
 <sub>* - player should be precise itself. There are examples of players that don't handle timings well, or have problems with their MPRIS implementations. Check [compatibility wiki page](https://github.com/Endg4meZer0/lrcsnc/wiki/Compatibility-with-players) for more.</sub>
@@ -36,7 +37,7 @@ git clone https://github.com/Endg4meZer0/lrcsnc.git
 cd lrcsnc
 make # or `sudo make all` for automatic install
 ```
-Make sure to have go v1.23 or above.
+Make sure to have `go` v1.23 or above; CGO should be enabled as well (so you should have `gcc` installed).
 
 ## Usage
 ```
@@ -45,13 +46,15 @@ lrcsnc [OPTION]
 Get more info on on available options with `lrcsnc -h`.
 
 ## TODO
-- [ ] Check [compatibility](https://github.com/Endg4meZer0/lrcsnc/wiki/Compatibility-with-players) with different players
+- [ ] Take another overlook on the MPRIS communication
+- [ ] Get lrcsnc ready for sub-line syncs
 - [ ] More lyrics providers (maybe local files too?)
 - [ ] More configuration options?
+- [ ] Check [compatibility](https://github.com/Endg4meZer0/lrcsnc/wiki/Compatibility-with-players) with different players
 - [ ] There is definitely always more!
 
 ## Need help or want to contribute?
 You can always make an issue for either a bug or a feature suggestment! If your question is more general, consider opening a discussion.
 
 ## Your favorite song's lyrics were not found?
-Consider adding them! Currently lrcsnc uses only *[LrcLib](https://lrclib.net)*, which is a great open-source lyrics provider service that has its own easy-to-use [app](https://github.com/tranxuanthang/lrcget) to download or upload lyrics. Once the lyrics are uploaded, lrcsnc should be able to pick them up on the next play of the song (that is if the cached version is not available though - check the docs for how to clear the cache). Also, other ways to get lyrics will be implemented later.
+Consider adding them! Currently lrcsnc uses only *[LrcLib](https://lrclib.net)*, which is a great open-source lyrics provider service (although I will admit, it's a bit unattended as of now, and its performance may suffer these days) that has its own easy-to-use [app](https://github.com/tranxuanthang/lrcget) to download or upload lyrics. Once the lyrics are uploaded, lrcsnc should be able to pick them up on the next play of the song (that is if the cached version is not available though - check the docs for how to clear the cache). Also, other ways to get lyrics will be implemented later.
