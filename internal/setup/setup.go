@@ -14,9 +14,6 @@ import (
 	"github.com/jessevdk/go-flags"
 )
 
-// Version is linked through -X (check Makefile)
-var version = "dev"
-
 var opts struct {
 	NoLog                bool   `long:"no-log" description:"Disables logging. --log-file and --log-level are ignored if this flag is set." env:"LRCSNC_NO_LOG"`
 	LogPath              string `long:"log-file" description:"Sets the log file path to use." default:"$HOME/.local/state/lrcsnc/log" env:"LRCSNC_LOG_FILE"`
@@ -44,7 +41,7 @@ func Setup() {
 
 	// Generic flags: -v...
 	if opts.DisplayVersion {
-		fmt.Println(version)
+		fmt.Println(global.Version)
 		os.Exit(0)
 	}
 

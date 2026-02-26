@@ -12,3 +12,6 @@ var Config = struct {
 
 	Path string
 }{}
+
+// Version is linked through -X (check Makefile)
+var Version = "dev"

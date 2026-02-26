@@ -7,7 +7,7 @@ PREFIX ?= "/usr/local"
 PACKAGEDIR ?= "${BIN}_${VERSION}"
 PACKAGENAME := "${PACKAGEDIR}.tar.gz"
 
-LDFLAGS_VERSION := -X lrcsnc/internal/setup.version=${VERSION}
+LDFLAGS_VERSION := -X lrcsnc/internal/pkg/global.Version
 LDFLAGS := \
 	${LDFLAGS_VERSION}
 
@@ -15,9 +15,9 @@ default: build
 all: build install clean
 
 build:
-	CGO_ENABLED=1 ${GO} build -ldflags="${LDFLAGS}" -o ${BIN} -v
+	CGO_ENABLED=1 ${GO} build -ldflags="${LDFLAGS}=${VERSION}" -o ${BIN} -v
 build-dev:
-	CGO_ENABLED=1 ${GO} build -ldflags="-X lrcsnc/internal/setup.version=dev" -o lrcsnc-dev -v
+	CGO_ENABLED=1 ${GO} build -ldflags="${LDFLAGS}=dev" -o lrcsnc-dev -v
 install:
 	install -Dm644 LICENSE "${DESTDIR}/usr/share/licenses/${BIN}/LICENSE"
 	install -Dm755 ${BIN} "${DESTDIR}${PREFIX}/bin/${BIN}"
