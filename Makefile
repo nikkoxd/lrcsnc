@@ -1,4 +1,4 @@
-VERSION ?= "${shell git tag --sort=-version:refname | head -n 1}-${shell git log -n 1 | head -n 1 | cut -d' ' -f2 | cut -b 1-16}"
+VERSION ?= ${shell git tag --sort=-version:refname | head -n 1}-${shell git log -n 1 | head -n 1 | cut -d' ' -f2 | cut -b 1-16}
 
 GO ?= "go"
 BIN ?= "lrcsnc"
@@ -15,9 +15,9 @@ default: build
 all: build install clean
 
 build:
-	CGO_ENABLED=1 ${GO} build -ldflags="${LDFLAGS}=${VERSION}" -o ${BIN} -v
+	CGO_ENABLED=1 ${GO} build -ldflags='${LDFLAGS}=${VERSION}' -o ${BIN} -v
 build-dev:
-	CGO_ENABLED=1 ${GO} build -ldflags="${LDFLAGS}=dev" -o lrcsnc-dev -v
+	CGO_ENABLED=1 ${GO} build -ldflags='${LDFLAGS}=dev' -o lrcsnc-dev -v
 install:
 	install -Dm644 LICENSE "${DESTDIR}/usr/share/licenses/${BIN}/LICENSE"
 	install -Dm755 ${BIN} "${DESTDIR}${PREFIX}/bin/${BIN}"
