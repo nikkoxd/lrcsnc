@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[0.1.3-1](https://github.com/Endg4meZer0/lrcsnc/releases/tag/v0.1.3-1)] - 2026-02-26
+### Added
+- `User-Agent` header is now present in requests to LrcLib.
+### Changed
+- The `loading` lyrics state is now only set after the attempt to get lyrics from cache fails (cache not enabled or cache miss). This gets rid of that small blink of `Loading...` status between songs that already have their lyrics cached.
+- The release binary built by `make build` is now stripped of symbols table (that should have been done ages ago, but I only learned that now).
+- A bit of chores in README since LrcLib got tremendously optimized right after I mentioned the slow-down :)
+
 ## [[0.1.3](https://github.com/Endg4meZer0/lrcsnc/releases/tag/v0.1.3)] - 2026-02-23
 ### Changed
 - Caching now uses SQLite database instead of littering the cache directory with JSON files. Overall performance should not change in any way though.
