@@ -9,7 +9,6 @@ import (
 	"lrcsnc/internal/output/pkg/event"
 	"lrcsnc/internal/output/server"
 	"lrcsnc/internal/pkg/global"
-	"lrcsnc/internal/pkg/types"
 )
 
 var songChanged chan bool = make(chan bool)
@@ -26,13 +25,6 @@ func lyricFetcher() {
 				Artists:  global.Player.P.Song.Artists,
 				Album:    global.Player.P.Song.Album,
 				Duration: global.Player.P.Song.Duration,
-			},
-		})
-
-		go server.ReceiveEvent(event.Event{
-			Type: event.EventTypeLyricsStateChanged,
-			Data: event.EventTypeLyricsStateChangedData{
-				State: types.LyricsStateLoading,
 			},
 		})
 

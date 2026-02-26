@@ -8,9 +8,12 @@ import (
 	"lrcsnc/internal/cache"
 	errs "lrcsnc/internal/lyrics/errors"
 	"lrcsnc/internal/lyrics/providers"
+	"lrcsnc/internal/output/pkg/event"
+	"lrcsnc/internal/output/server"
 	"lrcsnc/internal/pkg/global"
 	"lrcsnc/internal/pkg/log"
 	playerStructs "lrcsnc/internal/pkg/structs/player"
+	"lrcsnc/internal/pkg/types"
 )
 
 // Fetch retrieves the lyrics data for the current song.
@@ -34,6 +37,13 @@ func Fetch() (playerStructs.LyricsData, error) {
 	}
 
 	log.Debug("lyrics/fetch", fmt.Sprintf("Moving to the online part; using %v", global.Config.C.Lyrics.Provider))
+
+	go server.ReceiveEvent(event.Event{
+		Type: event.EventTypeLyricsStateChanged,
+		Data: event.EventTypeLyricsStateChangedData{
+			State: types.LyricsStateLoading,
+		},
+	})
 
 	res, err := providers.Providers[global.Config.C.Lyrics.Provider].Get(song)
 	if err != nil {
