@@ -181,12 +181,12 @@ func ApplyMetadataOntoGlobal(md mpris.Metadata) (err error) {
 		return err
 	}
 	global.Player.P.Song.Album, err = md.Album()
-	if err != nil {
+	if err != nil || len(global.Player.P.Song.Album) == 0 {
 		log.Debug("mpris/player", fmt.Sprintf("Failed to get album; either player doesn't support this field or there's a coding error. More: %v", err))
 		global.Player.P.Song.Album = ""
 	}
 	global.Player.P.Song.AlbumArtists, err = md.AlbumArtist()
-	if err != nil {
+	if err != nil || len(global.Player.P.Song.AlbumArtists) == 0 {
 		log.Debug("mpris/player", fmt.Sprintf("Failed to get album artists; either player doesn't support this field or there's a coding error. More: %v", err))
 		global.Player.P.Song.AlbumArtists = global.Player.P.Song.Artists
 	}
